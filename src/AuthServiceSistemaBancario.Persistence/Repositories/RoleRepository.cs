@@ -1,9 +1,9 @@
-using AuthServiceIN6BV.Domain.Entities;
-using AuthServiceIN6BV.Domain.Interfaces;
-using AuthServiceIN6BV.Persistence.Data;
+using AuthServiceSistemaBancario.Domain.Entities;
+using AuthServiceSistemaBancario.Domain.Interfaces;
+using AuthServiceSistemaBancario.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuthServiceIN6BVl.Persistence.Repositories;
+namespace AuthServiceSistemaBancariol.Persistence.Repositories;
 
 public class RoleRepository(ApplicationDbContext context) : IRoleRepository
 {

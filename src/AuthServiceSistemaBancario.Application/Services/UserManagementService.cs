@@ -1,10 +1,10 @@
-using AuthServiceIN6BV.Application.DTOs;
-using AuthServiceIN6BV.Application.Interfaces;
-using AuthServiceIN6BV.Domain.Constants;
-using AuthServiceIN6BV.Domain.Entities;
-using AuthServiceIN6BV.Domain.Interfaces;
+using AuthServiceSistemaBancario.Application.DTOs;
+using AuthServiceSistemaBancario.Application.Interfaces;
+using AuthServiceSistemaBancario.Domain.Constants;
+using AuthServiceSistemaBancario.Domain.Entities;
+using AuthServiceSistemaBancario.Domain.Interfaces;
 
-namespace AuthServiceIN6BV.Application.Services;
+namespace AuthServiceSistemaBancario.Application.Services;
 
 public class UserManagementService(IUserRepository users, IRoleRepository roles, ICloudinaryService cloudinary) : IUserManagementService
 {

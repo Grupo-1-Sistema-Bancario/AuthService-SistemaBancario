@@ -1,10 +1,10 @@
-using AuthServiceIN6BV.Application.Interfaces;
+using AuthServiceSistemaBancario.Application.Interfaces;
 using Konscious.Security.Cryptography;
 using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AuthServiceIN6BV.Application.Services;
+namespace AuthServiceSistemaBancario.Application.Services;
 
 public class PasswordHashService : IPasswordHashService
 {

@@ -1,4 +1,4 @@
-namespace AuthServiceIN6BV.Application.Interfaces;
+namespace AuthServiceSistemaBancario.Application.Interfaces;
 
 public interface IEmailService
 {

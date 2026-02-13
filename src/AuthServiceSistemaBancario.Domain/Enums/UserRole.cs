@@ -1,4 +1,4 @@
-namespace AuthServiceIN6BV.Domain.Enums;
+namespace AuthServiceSistemaBancario.Domain.Enums;
 
 public enum UserRole
 {

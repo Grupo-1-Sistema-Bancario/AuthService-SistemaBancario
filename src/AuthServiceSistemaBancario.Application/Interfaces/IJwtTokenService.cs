@@ -1,7 +1,7 @@
 
-using AuthServiceIN6BV.Domain.Entities;
+using AuthServiceSistemaBancario.Domain.Entities;
 
-namespace AuthServiceIN6BV.Application.Interfaces;
+namespace AuthServiceSistemaBancario.Application.Interfaces;
 
 public interface IJwtTokenService
 {

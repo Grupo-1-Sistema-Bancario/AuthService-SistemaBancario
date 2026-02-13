@@ -1,6 +1,6 @@
-using AuthServiceIN6BV.Application.DTOs;
+using AuthServiceSistemaBancario.Application.DTOs;
 
-namespace AuthServiceIN6BV.Application.Interfaces;
+namespace AuthServiceSistemaBancario.Application.Interfaces;
 
 public interface IUserManagementService
 {

@@ -1,4 +1,4 @@
-namespace AuthServiceIN6BV.Application.Exceptions;
+namespace AuthServiceSistemaBancario.Application.Exceptions;
 
 public static class ErrorCodes
 {

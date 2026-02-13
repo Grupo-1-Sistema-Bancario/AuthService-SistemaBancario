@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
-using AuthServiceIN6BV.Application.Interfaces;
+using AuthServiceSistemaBancario.Application.Interfaces;
 
-namespace AuthServiceIN6BV.Application.Services;
+namespace AuthServiceSistemaBancario.Application.Services;
 
 public class EmailService(IConfiguration configuration, ILogger<EmailService> logger) : IEmailService
 {

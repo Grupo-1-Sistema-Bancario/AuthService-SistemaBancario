@@ -1,9 +1,9 @@
-using AuthServiceIN6BV.Domain.Entities;
+using AuthServiceSistemaBancario.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 
-namespace AuthServiceIN6BV.Persistence.Data;
+namespace AuthServiceSistemaBancario.Persistence.Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
 {

@@ -1,7 +1,7 @@
 
-using AuthServiceIN6BV.Domain.Entities;
+using AuthServiceSistemaBancario.Domain.Entities;
 
-namespace AuthServiceIN6BV.Domain.Interfaces;
+namespace AuthServiceSistemaBancario.Domain.Interfaces;
 
 public interface IRoleRepository
 {

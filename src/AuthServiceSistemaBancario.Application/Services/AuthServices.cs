@@ -1,17 +1,17 @@
-using AuthServiceIN6BV.Application.DTOs;
-using AuthServiceIN6BV.Application.Interfaces;
-using AuthServiceIN6BV.Application.Exceptions;
-using AuthServiceIN6BV.Application.Extensions;
-using AuthServiceIN6BV.Application.Validators;
-using AuthServiceIN6BV.Domain.Constants;
-using AuthServiceIN6BV.Domain.Entities;
-using AuthServiceIN6BV.Domain.Interfaces;
-using AuthServiceIN6BV.Domain.Enums;
+using AuthServiceSistemaBancario.Application.DTOs;
+using AuthServiceSistemaBancario.Application.Interfaces;
+using AuthServiceSistemaBancario.Application.Exceptions;
+using AuthServiceSistemaBancario.Application.Extensions;
+using AuthServiceSistemaBancario.Application.Validators;
+using AuthServiceSistemaBancario.Domain.Constants;
+using AuthServiceSistemaBancario.Domain.Entities;
+using AuthServiceSistemaBancario.Domain.Interfaces;
+using AuthServiceSistemaBancario.Domain.Enums;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using AuthServiceIN6BV.Application.DTOs.Email;
+using AuthServiceSistemaBancario.Application.DTOs.Email;
 
-namespace AuthServiceIN6BV.Application.Services;
+namespace AuthServiceSistemaBancario.Application.Services;
 
 public class AuthService(
     IUserRepository userRepository,

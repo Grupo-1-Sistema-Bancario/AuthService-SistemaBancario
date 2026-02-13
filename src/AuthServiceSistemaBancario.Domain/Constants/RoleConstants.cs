@@ -1,4 +1,4 @@
-namespace AuthServiceIN6BV.Domain.Constants;
+namespace AuthServiceSistemaBancario.Domain.Constants;
 
 public static class RoleConstants
 {

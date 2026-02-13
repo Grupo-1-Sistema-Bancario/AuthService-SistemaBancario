@@ -1,4 +1,4 @@
-namespace AuthServiceIN6BV.Application.DTOs.Email;
+namespace AuthServiceSistemaBancario.Application.DTOs.Email;
 
 public class EmailResponseDto
 {

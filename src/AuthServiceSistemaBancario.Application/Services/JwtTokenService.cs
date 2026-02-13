@@ -1,11 +1,11 @@
-using AuthServiceIN6BV.Application.Interfaces;
-using AuthServiceIN6BV.Domain.Entities;
+using AuthServiceSistemaBancario.Application.Interfaces;
+using AuthServiceSistemaBancario.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-namespace AuthServiceIN6BV.Application.Services;
+namespace AuthServiceSistemaBancario.Application.Services;
 
 public class JwtTokenService(IConfiguration configuration) : IJwtTokenService
 {

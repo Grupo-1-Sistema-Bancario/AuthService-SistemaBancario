@@ -1,6 +1,6 @@
-using AuthServiceIN6BV.Application.Interfaces;
+using AuthServiceSistemaBancario.Application.Interfaces;
 
-namespace AuthServiceIN6BV.Application.Validators;
+namespace AuthServiceSistemaBancario.Application.Validators;
 
 public static class FileValidator
 {

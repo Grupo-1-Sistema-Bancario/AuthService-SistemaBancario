@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AuthServiceIN6BV.Domain.Entities;
+namespace AuthServiceSistemaBancario.Domain.Entities;
 public class UserRole
 {
     [Key]

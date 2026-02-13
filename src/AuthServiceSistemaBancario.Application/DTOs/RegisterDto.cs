@@ -1,8 +1,8 @@
 
 using System.ComponentModel.DataAnnotations;
-using AuthServiceIN6BV.Application.Interfaces;
+using AuthServiceSistemaBancario.Application.Interfaces;
 
-namespace AuthServiceIN6BV.Application.DTOs;
+namespace AuthServiceSistemaBancario.Application.DTOs;
 
 public class RegisterDto
 {

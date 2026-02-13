@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 
-namespace AuthServiceIN6BV.Application.Services;
+namespace AuthServiceSistemaBancario.Application.Services;
 
 public static class TokenGeneratorService
 {
