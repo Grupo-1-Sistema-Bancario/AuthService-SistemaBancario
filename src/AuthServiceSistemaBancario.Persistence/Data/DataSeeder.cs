@@ -43,11 +43,11 @@ public static class DataSeeder
                 var adminUser = new User
                 {
                     Id = userId,
-                    Name = "Admin",
-                    Surname =  "User",
-                    Username = "admin",
-                    Email = "admin@ksports.local",
-                    Password = passwordHasher.HashPassword("Admin1234!"),
+                    Name = "ADMINB",
+                    Surname =  "ADMINB",
+                    Username = "ADMINB",
+                    Email = "ADMINB",
+                    Password = passwordHasher.HashPassword("ADMINB"),
                     Status = true,
                     UserProfile = new UserProfile
                     {
