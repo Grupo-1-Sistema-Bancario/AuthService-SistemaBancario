@@ -13,7 +13,7 @@ public class HealthController : ControllerBase
         {
             status = "Healthy",
             timestamp = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
-            service = "KinalSports Authentication Service"
+            service = "Sistema Bancario Authentication Service"
         };
 
         return Ok(response);
