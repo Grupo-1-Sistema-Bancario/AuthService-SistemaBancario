@@ -1,4 +1,3 @@
-
 using AuthServiceSistemaBancario.Persistence.Data;
 using AuthServiceSistemaBancario.Api.Middlewares;
 using AuthServiceSistemaBancario.Api.Extensions;
@@ -6,6 +5,7 @@ using AuthServiceSistemaBancario.Api.ModelBinders;
 using Serilog;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +24,50 @@ builder.Services.AddControllers(options =>
 });
 
 builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddApiDocumentation();
+
+// builder.Services.AddApiDocumentation(); <-- Comentado para evitar conflictos con la configuración manual inferior
+
+// ==========================================
+// CONFIGURACIÓN DE SWAGGER Y JWT BEARER
+// ==========================================
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "AuthService API - Sistema Bancario",
+        Version = "v1",
+        Description = "Microservicio de Autenticación en .NET para el Sistema Bancario (Grupo 1, IN6BV)."
+    });
+
+    // Configuración del botón de Autorización (Candado)
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Ingresa el JWT token generado por el endpoint de Login."
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+// ==========================================
+
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddRateLimitingPolicies();
 
@@ -34,7 +77,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => 
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "AuthService API v1");
+    });
 }
 
 // Add Serilog request logging
