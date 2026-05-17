@@ -24,6 +24,7 @@ builder.Services.AddControllers(options =>
 });
 
 builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddSecurityPolicies(builder.Configuration);
 
 // builder.Services.AddApiDocumentation(); <-- Comentado para evitar conflictos con la configuración manual inferior
 
