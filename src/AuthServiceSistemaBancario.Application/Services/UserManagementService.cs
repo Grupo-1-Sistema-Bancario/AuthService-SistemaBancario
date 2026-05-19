@@ -21,6 +21,14 @@ public class UserManagementService(IUserRepository users, IRoleRepository roles,
         // Load user with roles
         var user = await users.GetByIdAsync(userId);
 
+        var isTargetUserAdmin = user.UserRoles.Any(r => r.Role.Name == RoleConstants.ADMIN_ROLE);
+
+        // Si el usuario destino es admin, bloquear la operación.
+        if (isTargetUserAdmin)
+        {
+            throw new InvalidOperationException("Acción denegada: No puedes modificar a un administrador.");
+        }
+
         // If demoting an admin, prevent removing last admin
         var isUserAdmin = user.UserRoles.Any(r => r.Role.Name == RoleConstants.ADMIN_ROLE);
         if (isUserAdmin && roleName != RoleConstants.ADMIN_ROLE)

@@ -24,6 +24,7 @@ builder.Services.AddControllers(options =>
 });
 
 builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddSecurityPolicies(builder.Configuration);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("DefaultCorsPolicy", policy =>

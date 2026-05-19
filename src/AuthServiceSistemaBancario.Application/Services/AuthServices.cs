@@ -177,8 +177,8 @@ public class AuthService(
             throw new UnauthorizedAccessException("Invalid credentials");
         }
 
-        // Verificar si el usuario está activo
-        if (!user.Status)
+        // Verificar si el usuario está activo y con email verificado
+        if (!user.Status || user.UserEmail is null || !user.UserEmail.EmailVerified)
         {
             logger.LogFailedLoginAttempt();
             throw new UnauthorizedAccessException("User account is disabled");
