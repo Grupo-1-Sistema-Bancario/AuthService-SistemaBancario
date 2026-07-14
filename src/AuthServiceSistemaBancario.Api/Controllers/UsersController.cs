@@ -54,4 +54,22 @@ public class UsersController(IUserManagementService userManagementService) : Con
         var users = await userManagementService.GetUsersByRoleAsync(roleName);
         return Ok(users);
     }
+
+    [HttpGet("{userId}")]
+    [Authorize]
+    [EnableRateLimiting("ApiPolicy")]
+    public async Task<ActionResult<object>> GetUserPublicInfo(string userId)
+    {
+        var user = await userManagementService.GetUserByIdAsync(userId);
+        if (user == null)
+        {
+            return NotFound(new { success = false, message = "Usuario no encontrado" });
+        }
+
+        return Ok(new
+        {
+            success = true,
+            data = new { id = user.Id, name = user.Name, surname = user.Surname }
+        });
+    }
 }

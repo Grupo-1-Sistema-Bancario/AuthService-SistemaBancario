@@ -95,4 +95,31 @@ public class UserManagementService(IUserRepository users, IRoleRepository roles,
             UpdatedAt = u.UpdatedAt
         }).ToList();
     }
+
+    public async Task<UserResponseDto?> GetUserByIdAsync(string userId)
+    {
+        var user = await users.GetByIdAsync(userId);
+        if (user == null)
+        {
+            return null;
+        }
+
+        var roleName = user.UserRoles.FirstOrDefault()?.Role?.Name ?? RoleConstants.USER_ROLE;
+
+        return new UserResponseDto
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Surname = user.Surname,
+            Username = user.Username,
+            Email = user.Email,
+            ProfilePicture = cloudinary.GetFullImageUrl(user.UserProfile?.ProfilePicture ?? string.Empty),
+            Phone = user.UserProfile?.Phone ?? string.Empty,
+            Role = roleName,
+            Status = user.Status,
+            IsEmailVerified = user.UserEmail?.EmailVerified ?? false,
+            CreatedAt = user.CreatedAt,
+            UpdatedAt = user.UpdatedAt
+        };
+    }
 }
