@@ -25,16 +25,16 @@ builder.Services.AddControllers(options =>
 
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddSecurityPolicies(builder.Configuration);
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("DefaultCorsPolicy", policy =>
-    {
-        policy.WithOrigins("http://localhost:5173")
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
-    });
-});
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("DefaultCorsPolicy", policy =>
+//     {
+//         policy.WithOrigins("http://localhost:5173")
+//               .AllowAnyHeader()
+//               .AllowAnyMethod()
+//               .AllowCredentials();
+//     });
+// });
 
 // builder.Services.AddApiDocumentation(); <-- Comentado para evitar conflictos con la configuración manual inferior
 
