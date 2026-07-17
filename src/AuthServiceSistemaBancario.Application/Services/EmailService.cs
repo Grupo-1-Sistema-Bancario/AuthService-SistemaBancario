@@ -1,14 +1,17 @@
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MailKit.Net.Smtp;
-using MailKit.Security;
-using MimeKit;
 using AuthServiceSistemaBancario.Application.Interfaces;
 
 namespace AuthServiceSistemaBancario.Application.Services;
 
 public class EmailService(IConfiguration configuration, ILogger<EmailService> logger) : IEmailService
 {
+    private static readonly HttpClient _httpClient = new HttpClient();
     public async Task SendEmailVerificationAsync(string email, string username, string token)
     {
         var subject = "Verify your email address";
@@ -80,84 +83,49 @@ public class EmailService(IConfiguration configuration, ILogger<EmailService> lo
             }
 
             // Validar configuración
-            var host = smtpSettings["Host"];
-            var portString = smtpSettings["Port"];
-            var username = smtpSettings["Username"];
-            var password = smtpSettings["Password"];
             var fromEmail = smtpSettings["FromEmail"];
             var fromName = smtpSettings["FromName"];
+            var apiKey = smtpSettings["BrevoApiKey"] ?? smtpSettings["ApiKey"] ?? smtpSettings["Password"];
 
-            if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(apiKey))
             {
-                logger.LogError("SMTP settings are not properly configured");
-                throw new InvalidOperationException("SMTP settings are not properly configured");
+                logger.LogError("Brevo API Key (BrevoApiKey, ApiKey, or Password) is not properly configured");
+                throw new InvalidOperationException("Brevo API Key is not properly configured");
             }
 
-            // Avoid logging sensitive SMTP details
+            var payload = new
+            {
+                sender = new { name = fromName, email = fromEmail },
+                to = new[] { new { email = to, name = "" } },
+                subject = subject,
+                htmlContent = body
+            };
 
-            var port = int.Parse(portString ?? "587");
+            var jsonPayload = JsonSerializer.Serialize(payload);
+            using var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
 
-            using var client = new SmtpClient();
+            var brevoUrl = smtpSettings["BrevoUrl"] ?? "https://api.brevo.com/v3/smtp/email";
+            using var request = new HttpRequestMessage(HttpMethod.Post, brevoUrl);
+            request.Headers.Add("api-key", apiKey);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            request.Content = content;
 
-            // Configurar timeout
             var timeoutMs = int.Parse(smtpSettings["Timeout"] ?? "30000");
-            client.Timeout = timeoutMs;
+            using var cts = new CancellationTokenSource(timeoutMs);
 
-            // FIX: Bypass SSL (Cloudinary, etc.)
-            client.CheckCertificateRevocation = false;
-            client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-
-            try
+            var response = await _httpClient.SendAsync(request, cts.Token);
+            if (!response.IsSuccessStatusCode)
             {
-                // Verificar configuración de SSL implícito
-                var useImplicitSsl = bool.Parse(smtpSettings["UseImplicitSsl"] ?? "false");
-
-                // Configuración específica por puerto y SSL
-                if (useImplicitSsl || port == 465)
-                {
-                    await client.ConnectAsync(host, port, SecureSocketOptions.SslOnConnect);
-                }
-                else if (port == 587)
-                {
-                    await client.ConnectAsync(host, port, SecureSocketOptions.StartTls);
-                }
-                else
-                {
-                    await client.ConnectAsync(host, port, SecureSocketOptions.Auto);
-                }
-
-                // Autenticación
-                await client.AuthenticateAsync(username, password);
-
-                // Crear mensaje con MimeKit
-                var message = new MimeMessage();
-                message.From.Add(new MailboxAddress(fromName, fromEmail));
-                message.To.Add(new MailboxAddress("", to));
-                message.Subject = subject;
-                message.Body = new TextPart("html") { Text = body };
-
-                // Enviar
-                await client.SendAsync(message);
-                logger.LogInformation("Email sent successfully");
-
-                await client.DisconnectAsync(true);
-                logger.LogInformation("Email pipeline completed");
+                var errorResponse = await response.Content.ReadAsStringAsync();
+                logger.LogError("Brevo REST API returned error: {StatusCode} - {Error}", response.StatusCode, errorResponse);
+                throw new InvalidOperationException($"Failed to send email via Brevo REST API: {response.StatusCode} - {errorResponse}");
             }
-            catch (MailKit.Security.AuthenticationException authEx)
-            {
-                logger.LogError(authEx, "Gmail authentication failed. Check app password.");
-                throw new InvalidOperationException($"Gmail authentication failed: {authEx.Message}. Please check your app password.", authEx);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Failed to send email");
-                throw;
-            }
-            logger.LogInformation("Email processed");
+
+            logger.LogInformation("Email sent successfully via Brevo REST API");
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to send email");
+            logger.LogError(ex, "Failed to send email via Brevo REST API");
 
             // Verificar si usar fallback
             var useFallback = bool.Parse(smtpSettings["UseFallback"] ?? "false");

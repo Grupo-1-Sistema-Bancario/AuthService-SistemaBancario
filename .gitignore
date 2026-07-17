@@ -59,6 +59,7 @@ publish/
 appsettings.Development.json
 appsettings.Production.json
 appsettings.Staging.json
+src/AuthServiceSistemaBancario.Api/appsettings.json
 .env
 .env.*
 secrets.json

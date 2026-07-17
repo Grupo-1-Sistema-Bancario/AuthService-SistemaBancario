@@ -10,9 +10,23 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: admin
     ports:
-     - "5436:5432"
+      - "5436:5432"
     volumes:
       - postgres_data_01:/var/lib/postgresql/data
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auth-service
+    ports:
+      - "5023:5023"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5023
+      - ConnectionStrings__DefaultConnection=${ConnectionStrings__DefaultConnection}
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data_01:
